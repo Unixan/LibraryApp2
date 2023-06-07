@@ -1,0 +1,43 @@
+﻿<Window x:Class="LibraryApp.View.LoanCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryApp.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        Style="{StaticResource {x:Type Window}}"
+        AllowsTransparency="True"
+        ResizeMode="NoResize" 
+        Title="LoanCardWindow" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Brukerinfo" FontWeight="Bold" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="16"/>
+        <StackPanel Grid.Row="1">
+            <Label Content="Id:" VerticalAlignment="Top"/>
+            <Label Content="Navn:" VerticalAlignment="Top"/>
+            <Label Content="Lånekort:" VerticalAlignment="Top"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label HorizontalAlignment="Left" Content="{Binding ID}"/>
+            <Label HorizontalAlignment="Left" Content="{Binding FullName}"/>
+            <Label HorizontalAlignment="Left" Content="{Binding LoanCardStatus}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Grid.ColumnSpan="2">
+        <Button Content="Tildel kort" Command="{Binding IssueCardCommand}"/>
+        <Button Content="Frata kort" Command="{Binding RevokeCardCommand}"/>
+        </StackPanel>
+        <Button Grid.Row="3" Content="Tilbake" Grid.ColumnSpan="2" Command="{Binding CloseCommand}"/>
+        <Rectangle Grid.ColumnSpan="2" Grid.RowSpan="4"/>
+    </Grid>
+    </Window>

@@ -1,0 +1,50 @@
+﻿<Window x:Class="LibraryApp.View.BookDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryApp.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        Style="{StaticResource {x:Type Window}}"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Title="BookDetailsWindow" Height="600" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Button Content="Lukk" 
+                Grid.Row="5" 
+                Grid.ColumnSpan="3"
+                Click="ButtonClose_OnClick"/>
+        <Label Content="Tittel:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Forfatter:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Sjanger:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Status:" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="2" x:Name="Title" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        <TextBlock Grid.Column="2" Grid.Row="1" x:Name="Author" VerticalAlignment="Center" FontSize="16"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" x:Name="Description" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.ColumnSpan="3" Margin="10,0"/>
+        <TextBlock Grid.Column="2" Grid.Row="3" x:Name="Genre" VerticalAlignment="Center" FontSize="16"/>
+        <TextBlock Grid.Column="2" Grid.Row="4" x:Name="Status" VerticalAlignment="Center" FontSize="16"/>
+        <Rectangle Grid.ColumnSpan="3"/>
+        <Rectangle Grid.Row="1" Grid.ColumnSpan="3"/>
+        <Rectangle Grid.Row="2" Grid.ColumnSpan="3"/>
+        <Rectangle Grid.Row="3" Grid.ColumnSpan="3"/>
+        <Rectangle Grid.Row="4" Grid.ColumnSpan="3"/>
+        <Rectangle Grid.Row="5" Grid.ColumnSpan="3"/>
+        
+        
+    </Grid>
+</Window>

@@ -1,0 +1,49 @@
+﻿<Window x:Class="LibraryApp.View.BooksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryApp.View"
+        mc:Ignorable="d" 
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        Style="{StaticResource {x:Type Window}}"
+        AllowsTransparency="True"
+        ResizeMode="NoResize" 
+        Title="Books" Height="500" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+</Grid.ColumnDefinitions>
+        <Label Content="Bøker" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" FontSize="22"/>
+        <Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+        <StackPanel VerticalAlignment="Top" Grid.Row="2">
+        <Button Content="Legg til bok" Command="{Binding AddBookCommand}"/>
+        <Button Content="Slett bok" Command="{Binding DeleteBookCommand}"/>
+        <Button Content="Detaljer" Command="{Binding BookDetailsCommand}"/>
+        <Button Content="Tilbake" Command="{Binding CloseCommand}"/>
+        </StackPanel>
+       <DataGrid Grid.Row="2"
+                 Grid.Column="1"
+                 CanUserAddRows="False" CanUserDeleteRows="False"
+                 AutoGenerateColumns="False"
+                 IsReadOnly="True"
+                 
+                 ItemsSource="{Binding Books}"
+                 SelectedItem="{Binding SelectedBook}">
+           <DataGrid.Columns>
+               <DataGridTextColumn Header="Tittel" Binding="{Binding Title}"  Width="2*"/>
+               <DataGridTextColumn Header="Forfatter" Binding="{Binding Author}" Width="1*"/>
+               <DataGridTextColumn Header="Sjanger" Binding="{Binding Genre}" Width="1*"/>
+               <DataGridTextColumn Header="Status" Binding="{Binding Availability}" Width="2*"/>
+           </DataGrid.Columns>
+           </DataGrid>
+       
+    </Grid>
+</Window>

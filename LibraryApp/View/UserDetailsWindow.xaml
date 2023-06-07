@@ -1,0 +1,58 @@
+﻿<Window x:Class="LibraryApp.View.UserDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryApp.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        Style="{StaticResource {x:Type Window}}"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Title="UserDetailsWindow" Height="600" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Label Content="Navn:"/>
+        <Label Grid.Row="1" Content="Adresse:"/>
+        <Label Grid.Row="2" Content="Lånekort:"/>
+        <Label Grid.Row="3" Content="ID"/>
+        <Label Grid.Row="4" Content="Lånte bøker:"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding User.FullName}"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User.Address}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LoanCardStatus}"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding User.Id}"/>
+        <DataGrid Grid.Row="4" Grid.Column="1"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Books}">
+           <DataGrid.Columns>
+                <DataGridTextColumn Header="Tittel" Binding="{Binding Title}" Width="1*"/>
+                <DataGridTextColumn Header="Lånt dato" Binding="{Binding LoanedOn}" Width="1*"/>
+           </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Rediger bøker" Command="{Binding EditBooksCommand}"/>
+            <Button Content="Lånekort" Command="{Binding LoanCardCommand}"/>
+            <Button Content="Tilbake" Command="{Binding CloseCommand}"/>
+            </StackPanel>
+        <Rectangle Grid.ColumnSpan="2"/>
+        <Rectangle Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Rectangle Grid.Row="2" Grid.ColumnSpan="2"/>
+        <Rectangle Grid.Row="3" Grid.ColumnSpan="2"/>
+        <Rectangle Grid.Row="4" Grid.ColumnSpan="2"/>
+        <Rectangle Grid.Row="5" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>
