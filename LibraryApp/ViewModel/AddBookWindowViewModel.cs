@@ -91,7 +91,7 @@ public class AddBookWindowViewModel : ViewModelBase
     }
     private void AddBook()
     {
-        Books.Add(new Book(Title, Author, SelectedOption, Description));
+        Books.Add(new Book(Title, Author, SelectedOption!, Description));
         MessageBox.Show("Ny bok lagt til!");
         EmptyFields();
     }

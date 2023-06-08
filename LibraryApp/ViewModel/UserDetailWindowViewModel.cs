@@ -40,9 +40,9 @@ public class UserDetailWindowViewModel : ViewModelBase
 
     private void EditLoanCard()
     {
-        var LoanCardWindow = new LoanCardWindow(_ownerWindow);
+        var loanCardWindow = new LoanCardWindow(_ownerWindow);
         _ownerWindow.Opacity = 0;
-        LoanCardWindow.ShowDialog();
+        loanCardWindow.ShowDialog();
         _ownerWindow.Opacity = 1;
         OnPropertyChanged(nameof(LoanCardStatus));
     }

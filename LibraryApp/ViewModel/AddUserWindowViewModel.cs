@@ -12,7 +12,10 @@ public class AddUserWindowViewModel : ViewModelBase
 
     public ObservableCollection<User?> Users
     {
-        get { return App.LibraryService.Users; }
+        get
+        {
+            return App.LibraryService.Users;
+        }
         set
         {
             App.LibraryService.Users = value;
