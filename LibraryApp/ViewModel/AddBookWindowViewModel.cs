@@ -10,17 +10,8 @@ public class AddBookWindowViewModel : ViewModelBase
     public RelayCommand AddBookCommand => new RelayCommand(execute => AddBook(),canExecute => !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author) && !string.IsNullOrWhiteSpace(SelectedOption) && !string.IsNullOrWhiteSpace(Description) );
     public RelayCommand ClearFieldsCommand => new RelayCommand(execute => EmptyFields(), canExecute => !string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Author) || !string.IsNullOrWhiteSpace(SelectedOption) || !string.IsNullOrWhiteSpace(Description));
     public RelayCommand CloseWindowCommand => new RelayCommand(execute => SureClose());
-
-    private ObservableCollection<string> _options;
-    public ObservableCollection<string> Options
-    {
-        get { return _options; }
-        set
-        {
-            _options = value;
-            OnPropertyChanged();
-        }
-    }
+    public ObservableCollection<string> Options { get; }
+    
     private string _selectedOption;
     public string? SelectedOption
     {
@@ -31,14 +22,12 @@ public class AddBookWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-    private ObservableCollection<Book?> _books;
-
     public ObservableCollection<Book?> Books
     {
-        get { return _books; }
+        get { return App.LibraryService.Books; }
         set
         {
-            _books = value;
+            App.LibraryService.Books = value;
             OnPropertyChanged();
         }
     }
@@ -74,11 +63,10 @@ public class AddBookWindowViewModel : ViewModelBase
     }
     private readonly Window _window;
 
-    public AddBookWindowViewModel(Window window, ObservableCollection<Book?> books)
+    public AddBookWindowViewModel(Window window)
     {
         _window = window;
-       _books = books;
-        _options = new ObservableCollection<string>
+       Options = new ObservableCollection<string>
         {
             "Barnebøker",
             "Biografi",

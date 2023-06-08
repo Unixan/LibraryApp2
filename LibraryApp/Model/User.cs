@@ -11,10 +11,13 @@ public class User
     public string Address { get;  set; }
     public Guid Id { get; private set; }
     public string FullName => $"{LastName}, {FirstName}";
-    public string LoanCardStatus => LoanCard != null ? "Gyldig til: " + LoanCard.DateIssued : "Ingen";
+    public string LoanCardStatus
+    {
+        get => LoanCard != null ? "Gyldig til: " + LoanCard.DateIssued : "Ingen";
+    }
 
     public LoanCard? LoanCard { get; private set; }
-    public ObservableCollection<UserBookItem> LoanedBooks { get; protected set; }
+    public ObservableCollection<UserBookItem> LoanedBooks { get; protected internal set; }
 
     public User(string firstName, string lastName, string address)
     {
@@ -36,12 +39,6 @@ public class User
     {
         LoanCard = null;
     }
-
-    public string GetLoanCardStatus()
-    {
-        return LoanCard != null ? "Gyldig til: " + LoanCard.DateIssued : "Ingen";
-    }
-
     public void SetLoanedBooks(ObservableCollection<UserBookItem> books)
     {
         LoanedBooks = books;

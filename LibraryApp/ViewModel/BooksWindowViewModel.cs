@@ -12,33 +12,38 @@ public class BooksWindowViewModel : ViewModelBase
     public RelayCommand AddBookCommand => new RelayCommand(execute => AddBook());
     public RelayCommand DeleteBookCommand => new RelayCommand(execute => DeleteSelectedBook(), canExecute => SelectedBook != null);
     public RelayCommand BookDetailsCommand => new RelayCommand(execute => OpenBookDetailsWindow(), canExecute => SelectedBook != null);
-    public RelayCommand CloseCommand => new RelayCommand(execute => CloseWindow(_window));
+    public RelayCommand CloseCommand => new RelayCommand(execute => CloseWindow(_ownerWindow));
 
 
-    private Window _window;
-    public ObservableCollection<Book?> Books { get; set; }
-
-    private Book? _selectedBook;
-    public Book? SelectedBook
+    private Window _ownerWindow;
+    public ObservableCollection<Book?> Books
     {
-        get { return _selectedBook; }
+        get { return App.LibraryService.Books; }
         set
         {
-            _selectedBook = value;
+            App.LibraryService.Books = value;
             OnPropertyChanged();
         }
     }
-    public BooksWindowViewModel(Window window, ObservableCollection<Book?> books)
+    public Book? SelectedBook
     {
-        _window = window;
-        Books = books;
+        get { return App.LibraryService.SelectedBook; }
+        set
+        {
+            App.LibraryService.SelectedBook = value;
+            OnPropertyChanged();
+        }
+    }
+    public BooksWindowViewModel(Window window)
+    {
+        _ownerWindow = window;
     }
     private void OpenBookDetailsWindow()
     {
-        var bookDetailsWindow = new BookDetailsWindow(_window, SelectedBook);
-        _window.Opacity = 0;
+        var bookDetailsWindow = new BookDetailsWindow(_ownerWindow);
+        _ownerWindow.Opacity = 0;
         bookDetailsWindow.ShowDialog();
-        _window.Opacity = 1;
+        _ownerWindow.Opacity = 1;
     }
     private void DeleteSelectedBook()
     {
@@ -50,10 +55,10 @@ public class BooksWindowViewModel : ViewModelBase
     }
     private void AddBook()
     {
-        var addBookWindow = new AddBookWindow(_window, Books);
-        _window.Opacity = 0;
+        var addBookWindow = new AddBookWindow(_ownerWindow);
+        _ownerWindow.Opacity = 0;
         addBookWindow.ShowDialog();
-        _window.Opacity = 1;
+        _ownerWindow.Opacity = 1;
     }
 
     private void ResetBookStatus()

@@ -7,15 +7,13 @@ namespace LibraryApp.View
 {
     public partial class LoanCardWindow : Window
     {
-        private User _user;
-        public LoanCardWindow(Window owner, User user)
+        public LoanCardWindow(Window ownerWindow)
         {
-            Owner = owner;
-            _user = user;
+            Owner = ownerWindow;
             InitializeComponent();
-            var vm = new LoanCardWindowViewModel(this, user);
-            DataContext = vm;
-            vm.ReloadRequested += vm_ReloadRequested;
+            var LoanCardWindowViewModel = new LoanCardWindowViewModel(this);
+            DataContext = LoanCardWindowViewModel;
+            LoanCardWindowViewModel.ReloadRequested += vm_ReloadRequested;
         }
 
         private void vm_ReloadRequested(object? sender, EventArgs e)
@@ -25,7 +23,7 @@ namespace LibraryApp.View
 
         private void ReloadWindow()
         {
-            LoanCardWindow newWindow = new LoanCardWindow(Owner, _user);
+            LoanCardWindow newWindow = new LoanCardWindow(this);
             Close();
             newWindow.ShowDialog();
         }

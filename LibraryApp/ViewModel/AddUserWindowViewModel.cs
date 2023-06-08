@@ -1,15 +1,25 @@
-﻿using System.Collections.ObjectModel;
+﻿using LibraryApp.Model;
+using LibraryApp.MVVM;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using LibraryApp.Model;
-using LibraryApp.MVVM;
 
 namespace LibraryApp.ViewModel;
 
 public class AddUserWindowViewModel : ViewModelBase
 {
     private Window _ownerWindow;
-    public ObservableCollection<User> Users { get; set; }
+
+    public ObservableCollection<User?> Users
+    {
+        get { return App.LibraryService.Users; }
+        set
+        {
+            App.LibraryService.Users = value;
+            OnPropertyChanged();
+        }
+    }
+
     private string _userFirstName;
 
     public string UserFirstName
@@ -48,10 +58,9 @@ public class AddUserWindowViewModel : ViewModelBase
     public RelayCommand EmptyFieldsCommand => new RelayCommand(execute => EmptyFields(), canExecute => !string.IsNullOrWhiteSpace(UserFirstName) || !string.IsNullOrWhiteSpace(UserLastName) || !string.IsNullOrWhiteSpace(UserAddress));
     public RelayCommand BackCommand => new(execute => SureClose());
 
-    public AddUserWindowViewModel(Window ownerWindow, ObservableCollection<User> users)
+    public AddUserWindowViewModel(Window ownerWindow)
     {
         _ownerWindow = ownerWindow;
-        Users = users;
     }
     private void AddUser()
     {

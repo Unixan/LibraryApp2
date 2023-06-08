@@ -1,6 +1,4 @@
-﻿using LibraryApp.Model;
-using LibraryApp.ViewModel;
-using System.Collections.ObjectModel;
+﻿using LibraryApp.ViewModel;
 using System.Windows;
 
 namespace LibraryApp.View
@@ -8,15 +6,13 @@ namespace LibraryApp.View
     public partial class AddUserWindow : Window
     {
         private Window Window;
-        public ObservableCollection<User> Users { get; set; }
-        public AddUserWindow(Window window, ObservableCollection<User> users)
+        public AddUserWindow(Window window)
         {
-            Users = users;
             Window = window;
             Owner = Window;
-            var vm = new AddUserWindowViewModel(this, Users);
-            DataContext = vm;
             InitializeComponent();
+            var vm = new AddUserWindowViewModel(this);
+            DataContext = vm;
         }
     }
 }

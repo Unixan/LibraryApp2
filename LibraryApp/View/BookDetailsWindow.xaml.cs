@@ -1,36 +1,17 @@
 ﻿using System.Windows;
-using LibraryApp.Model;
+using LibraryApp.ViewModel;
 
 namespace LibraryApp.View
 {
     public partial class BookDetailsWindow : Window
     {
-        public Book? Book { get; private set; }
-        public BookDetailsWindow(Window books, Book? book)
+        public BookDetailsWindow(Window ownerWindow)
         {
-            Book = book;
-            Owner = books;
+            
+            Owner = ownerWindow;
             InitializeComponent();
-            PopulateDetails(book);
-        }
-
-        private void PopulateDetails(Book? book)
-        {
-            Title.Text = book.Title;
-            Author.Text = book.Author;
-            Description.Text = book.Description;
-            Genre.Text = book.Genre;
-            Status.Text = GetBookStatus(book);
-        }
-
-        private string GetBookStatus(Book? book)
-        {
-            return book.IsAvailable ? "Ledig" : "Lånt ut til: " + book.LoanedTo.FullName;
-        }
-
-        private void ButtonClose_OnClick(object sender, RoutedEventArgs e)
-        {
-            Close();
+            var bookDetailsWindowViewModel = new BookDetailsWindowViewModel(this);
+            DataContext = bookDetailsWindowViewModel;
         }
     }
 }

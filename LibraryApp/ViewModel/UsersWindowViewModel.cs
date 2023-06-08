@@ -8,68 +8,69 @@ namespace LibraryApp.ViewModel;
 
 public class UsersWindowViewModel : ViewModelBase
 {
-    private Window _window;
-    public ObservableCollection<User> Users { get; set; }
-
-    private ObservableCollection<Book?> _library;
-
-    private User _currentUser;
-
-    public User CurrentUser
+    private Window _ownerWindow;
+    public ObservableCollection<User?> Users
     {
-        get { return _currentUser; }
+        get { return App.LibraryService.Users;}
         set
         {
-            _currentUser = value;
+            App.LibraryService.Users = value;
             OnPropertyChanged();
         }
     }
-    public RelayCommand DeleteCommand => new RelayCommand(execute => DeleteUser(), canExecute => CurrentUser != null);
-    public RelayCommand DetailsCommand => new RelayCommand(execute => ShowUserDetails(), canExecute => CurrentUser != null);
-    public RelayCommand AddUserCommand => new RelayCommand(execute => AddUser());
-    public RelayCommand CloseWindowCommand => new RelayCommand(execute => CloseWindow(_window));
-
-
-
-    public UsersWindowViewModel(Window window, ObservableCollection<User> users, ObservableCollection<Book?> library)
+    public User SelectedUser
     {
-        _window = window;
-        Users = users;
-        _library = library;
+        get { return App.LibraryService?.SelectedUser; }
+        set
+        {
+            App.LibraryService.SelectedUser = value;
+            OnPropertyChanged();
+        }
+    }
+    public RelayCommand DeleteCommand => new RelayCommand(execute => DeleteUser(), canExecute => SelectedUser != null);
+    public RelayCommand DetailsCommand => new RelayCommand(execute => ShowUserDetails(), canExecute => SelectedUser != null);
+    public RelayCommand AddUserCommand => new RelayCommand(execute => AddUser());
+    public RelayCommand CloseWindowCommand => new RelayCommand(execute => CloseWindow(_ownerWindow));
+
+
+
+    public UsersWindowViewModel(Window ownerWindow)
+    {
+        _ownerWindow = ownerWindow;
     }
 
     private void AddUser()
     {
-        var addUserWindow = new AddUserWindow(_window, Users);
-        _window.Opacity = 0;
+        var addUserWindow = new AddUserWindow(_ownerWindow);
+        _ownerWindow.Opacity = 0;
         addUserWindow.ShowDialog();
-        _window.Opacity = 1;
+        _ownerWindow.Opacity = 1;
     }
 
     private void ShowUserDetails()
     {
-        var userDetailWindow = new UserDetailsWindow(_window, CurrentUser, _library);
-        _window.Opacity = 0;
+        var userDetailWindow = new UserDetailsWindow(_ownerWindow);
+        _ownerWindow.Opacity = 0;
         userDetailWindow.ShowDialog();
-        _window.Opacity = 1;
         ReloadWindow();
-    }
+        _ownerWindow.Opacity = 1;
+       }
 
     private void DeleteUser()
     {
         var choice = MessageBox.Show("Er du sikker? Brukeren vil bli slettet for godt",
-            $"Slette {CurrentUser.LastName}, {CurrentUser.FirstName}?",
+            $"Slette {SelectedUser.LastName}, {SelectedUser.FirstName}?",
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
         if (choice != MessageBoxResult.Yes) return;
         RemoveCurrentBooksFromUser();
-        Users.Remove(CurrentUser);
+        Users.Remove(SelectedUser);
     }
 
     private void RemoveCurrentBooksFromUser()
     {
-        if (CurrentUser.LoanedBooks.Count <= 0) return;
-        foreach (var booklisting in CurrentUser.LoanedBooks)
+        if (SelectedUser.LoanedBooks.Count <= 0) return;
+        foreach (var booklisting in SelectedUser.LoanedBooks)
         {
             booklisting.Book.LoanedTo = null;
         }

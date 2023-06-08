@@ -43,7 +43,6 @@
             <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                      
                      MaxLength="1000"
-                     TextChanged="TextBoxBase_OnTextChanged"
                      Margin="20,0"
                      Height="200"
                      TextWrapping="Wrap"

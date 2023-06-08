@@ -7,7 +7,7 @@ public class Book
     public string Genre { get; set; }
     public string Description { get; set; }
     public bool IsAvailable => LoanedTo == null;
-    public string Availability => IsAvailable ? "Ledig" : $"Lånt ut til: {LoanedTo.FullName}";
+    public string Availability => IsAvailable ? "Ledig" : $"Lånt ut til: {LoanedTo?.FullName}";
     public User? LoanedTo { get; set; }
 
     public Book(string title, string author, string genre, string description)
@@ -18,9 +18,4 @@ public class Book
         Description = description;
         LoanedTo = null;
     }
-
-    public object GetBookShortDetails()
-    {
-        return new { Title = Title, Author = Author, Genre = Genre };
     }
-}

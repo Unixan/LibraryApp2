@@ -1,28 +1,18 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using LibraryApp.ViewModel;
+using System;
 using System.Windows;
-using LibraryApp.Model;
-using LibraryApp.ViewModel;
 
 namespace LibraryApp.View
 {
     public partial class UserBooksWindow : Window
     {
-        private Window _window;
-        private ObservableCollection<UserBookItem> _loanedBooks;
-        private User _user;
-        private ObservableCollection<Book?> _library;
-        
-        public UserBooksWindow(Window window, User user, ObservableCollection<Book?> library)
+        private Window _ownerWindow;
+        public UserBooksWindow(Window window)
         {
             Owner = window;
-            _window = window;
-            _loanedBooks = user.LoanedBooks;
-            _user = user;
-            _library = library;
+            _ownerWindow = window;
             InitializeComponent();
-            var vm = new UserBooksWindowViewModel(this, _user, _loanedBooks, _library );
+            var vm = new UserBooksWindowViewModel(this);
             DataContext = vm;
             vm.ReloadRequested += vm_ReloadRequested;
         }
@@ -33,7 +23,7 @@ namespace LibraryApp.View
 
         private void ReloadWindow()
         {
-            UserBooksWindow newWindow = new UserBooksWindow(Owner, _user, _library);
+            UserBooksWindow newWindow = new UserBooksWindow(this);
             Close();
             newWindow.ShowDialog();
         }

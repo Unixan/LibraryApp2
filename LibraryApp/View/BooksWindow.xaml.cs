@@ -8,13 +8,11 @@ namespace LibraryApp.View
 {
     public partial class BooksWindow : Window
     {
-        private ObservableCollection<Book?> _library;
-        public BooksWindow(Window mainWindow, ObservableCollection<Book?> library)
+        public BooksWindow(Window mainWindow)
         {
-            _library = library;
             Owner = mainWindow;
             InitializeComponent();
-            var vm = new BooksWindowViewModel(this, _library);
+            var vm = new BooksWindowViewModel(this);
             DataContext = vm;
         }
     }

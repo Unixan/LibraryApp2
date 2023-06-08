@@ -30,4 +30,11 @@ public class ViewModelBase : INotifyPropertyChanged
         window.Close();
     }
 
+    public void ResetAndClose(Window window)
+    {
+        App.LibraryService.SelectedUser = null;
+        App.LibraryService.SelectedBook = null;
+        window.Close();
+    }
+
 }

@@ -28,16 +28,16 @@
         <Button Content="Lukk" 
                 Grid.Row="5" 
                 Grid.ColumnSpan="3"
-                Click="ButtonClose_OnClick"/>
+                Command="{Binding CloseCommand}"/>
         <Label Content="Tittel:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="Forfatter:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="Sjanger:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="Status:" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="2" x:Name="Title" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
-        <TextBlock Grid.Column="2" Grid.Row="1" x:Name="Author" VerticalAlignment="Center" FontSize="16"/>
-        <TextBlock Grid.Column="0" Grid.Row="2" x:Name="Description" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Grid.ColumnSpan="3" Margin="10,0"/>
-        <TextBlock Grid.Column="2" Grid.Row="3" x:Name="Genre" VerticalAlignment="Center" FontSize="16"/>
-        <TextBlock Grid.Column="2" Grid.Row="4" x:Name="Status" VerticalAlignment="Center" FontSize="16"/>
+        <TextBlock Grid.Column="2" x:Name="Title" VerticalAlignment="Center" FontSize="20" Text="{Binding SelectedBook.Title}" FontWeight="Bold"/>
+        <TextBlock Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" FontSize="16" Text="{Binding SelectedBook.Author}"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="16" Text="{Binding SelectedBook.Description}" Grid.ColumnSpan="3" Margin="10,0"/>
+        <TextBlock Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" FontSize="16" Text="{Binding SelectedBook.Genre}"/>
+        <TextBlock Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" FontSize="16" Text="{Binding SelectedBook.Availability}"/>
         <Rectangle Grid.ColumnSpan="3"/>
         <Rectangle Grid.Row="1" Grid.ColumnSpan="3"/>
         <Rectangle Grid.Row="2" Grid.ColumnSpan="3"/>

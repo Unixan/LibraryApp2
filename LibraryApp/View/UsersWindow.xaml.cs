@@ -8,15 +8,11 @@ namespace LibraryApp.View
 {
     public partial class UsersWindow : Window
     {
-        private ObservableCollection<Book?> _library;
-        private ObservableCollection<User> _users;
-        public UsersWindow(Window mainWindow, ObservableCollection<Book?> library, ObservableCollection<User> users)
+        public UsersWindow(Window mainWindow)
         {
-            _users = users;
             InitializeComponent();
-            _library = library;
             Owner = mainWindow;
-            var vm = new UsersWindowViewModel(this, _users, _library);
+            var vm = new UsersWindowViewModel(this);
             DataContext = vm;
             vm.ReloadRequested += vm_ReloadRequested;
 
@@ -27,7 +23,7 @@ namespace LibraryApp.View
         }
         private void ReloadWindow()
         {
-            var newWindow = new UsersWindow(Owner, _library, _users);
+            var newWindow = new UsersWindow(Owner);
             Close();
             newWindow.ShowDialog();
         }

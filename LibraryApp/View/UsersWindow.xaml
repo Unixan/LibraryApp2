@@ -23,8 +23,9 @@
             <Button Content="Tilbake" Command="{Binding CloseWindowCommand}"/>
         </StackPanel>
         <DataGrid Grid.Column="1"
+                  x:Name="UsersList"
                   ItemsSource="{Binding Users}"
-                  SelectedItem="{Binding CurrentUser}"
+                  SelectedItem="{Binding SelectedUser}"
                   CanUserAddRows="False" CanUserDeleteRows="False"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
