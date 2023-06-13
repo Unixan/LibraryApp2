@@ -1,5 +1,4 @@
 ﻿using LibraryApp.ViewModel;
-using System;
 using System.Windows;
 
 namespace LibraryApp.View
@@ -14,18 +13,6 @@ namespace LibraryApp.View
             InitializeComponent();
             var vm = new UserBooksWindowViewModel(this);
             DataContext = vm;
-            vm.ReloadRequested += vm_ReloadRequested;
-        }
-        private void vm_ReloadRequested(object? sender, EventArgs e)
-        {
-            ReloadWindow();
-        }
-
-        private void ReloadWindow()
-        {
-            UserBooksWindow newWindow = new UserBooksWindow(this);
-            Close();
-            newWindow.ShowDialog();
         }
     }
 }

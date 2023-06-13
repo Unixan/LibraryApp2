@@ -1,4 +1,5 @@
-﻿using LibraryApp.Model;
+﻿using LibraryApp.CommonLibrary;
+using LibraryApp.Model;
 using LibraryApp.MVVM;
 using LibraryApp.View;
 using System.Collections.ObjectModel;
@@ -8,23 +9,15 @@ namespace LibraryApp.ViewModel;
 
 public class UserDetailWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<UserBookItem> Books
-    {
-        get { return User.LoanedBooks; }
-    }
+    public ObservableCollection<Book> Books { get; set; }
 
     private Window _ownerWindow;
-    public string LoanCardStatus
-    {
-        get { return App.LibraryService.SelectedUser.LoanCardStatus; }
-        
-    }
     public User? User
     {
-        get { return App.LibraryService?.SelectedUser; }
+        get { return LibraryService.SelectedUser; }
         set
         {
-            App.LibraryService.SelectedUser = value;
+            LibraryService.SelectedUser = value;
             OnPropertyChanged();
         }
     }
@@ -32,10 +25,29 @@ public class UserDetailWindowViewModel : ViewModelBase
     public RelayCommand EditBooksCommand => new RelayCommand(execute => EditBooks());
     public RelayCommand LoanCardCommand => new RelayCommand(execute => EditLoanCard());
     public RelayCommand CloseCommand => new RelayCommand(execute => ResetAndClose(_ownerWindow));
+    public string LoanCard
+    {
+        get { return LibraryService.SelectedUser.LoanCard; }
+        set
+        {
+            LibraryService.SelectedUser.LoanCard = value;
+            OnPropertyChanged();
+        }
+    }
     public UserDetailWindowViewModel(Window window)
     {
+        Books = new ObservableCollection<Book>();
         _ownerWindow = window;
-     }
+    }
+
+    private void GetUserBooks()
+    {
+        Books.Clear();
+        foreach (var book in LibraryService.Books)
+        {
+            if (book.LoanedToId == LibraryService.SelectedUser.UserID) Books.Add(book);
+        }
+    }
 
 
     private void EditLoanCard()
@@ -44,13 +56,14 @@ public class UserDetailWindowViewModel : ViewModelBase
         _ownerWindow.Opacity = 0;
         loanCardWindow.ShowDialog();
         _ownerWindow.Opacity = 1;
-        OnPropertyChanged(nameof(LoanCardStatus));
+        OnPropertyChanged(nameof(LoanCard));
     }
 
     private void EditBooks()
     {
         var editBooksWindow = new UserBooksWindow(_ownerWindow);
         editBooksWindow.ShowDialog();
+        GetUserBooks();
         OnPropertyChanged(nameof(Books));
     }
 }

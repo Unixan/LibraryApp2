@@ -31,8 +31,8 @@
         <Label Grid.Row="4" Content="Lånte bøker:"/>
         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding User.FullName}"/>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User.Address}"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LoanCardStatus}"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding User.Id}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LoanCard}"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding User.UserID}"/>
         <DataGrid Grid.Row="4" Grid.Column="1"
                   CanUserAddRows="False" CanUserDeleteRows="False"
                   AutoGenerateColumns="False"
@@ -40,7 +40,7 @@
                   ItemsSource="{Binding Books}">
            <DataGrid.Columns>
                 <DataGridTextColumn Header="Tittel" Binding="{Binding Title}" Width="1*"/>
-                <DataGridTextColumn Header="Lånt dato" Binding="{Binding LoanedOn}" Width="1*"/>
+                <DataGridTextColumn Header="Lånt dato" Binding="{Binding LoanedOnDate}" Width="1*"/>
            </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -1,6 +1,7 @@
-﻿using LibraryApp.Model;
+﻿using LibraryApp.CommonLibrary;
+using LibraryApp.Model;
 using LibraryApp.MVVM;
-using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -11,66 +12,27 @@ public class UserBooksWindowViewModel : ViewModelBase
 {
     public RelayCommand SaveCommand => new RelayCommand(execute => SaveChanges(), canExecute => _changesMade);
     public RelayCommand CancelCommand => new RelayCommand(execute => AreYouSure());
-    public RelayCommand LoanBookCommand => new RelayCommand(execute => SelectBookToLoan(), canExecute => SelectedLibraryBook != null);
-    public RelayCommand ReturnBookCommand => new RelayCommand(execute => SelectBookToReturn(), canExecute => SelectedLoanedBook != null);
+    public RelayCommand LoanBookCommand => new RelayCommand(execute => LoanBook(), canExecute => SelectedLibraryBook != null);
+    public RelayCommand ReturnBookCommand => new RelayCommand(execute => ReturnBook(), canExecute => SelectedLoanedBook != null);
     private Window _ownerWindow;
-    public ObservableCollection<UserBookItem> LoanedBooks
-    {
-        get { return App.LibraryService.SelectedUser.LoanedBooks; }
-        set
-        {
-            App.LibraryService.SelectedUser.LoanedBooks = value;
-            OnPropertyChanged();
-        }
-    }
-    public ObservableCollection<UserBookItem> TempLoanedBooks { get; set; }
-    public ObservableCollection<Book?> LibraryBooks
-    {
-        get { return App.LibraryService.Books; }
-        set
-        {
-            App.LibraryService.Books = value;
-            OnPropertyChanged();
-        }
-    }
-    public ObservableCollection<Book?> TempAvailableLibraryBooks { get; set; }
-    private bool _changesMade = false;
-    private string _userName;
-    public string UserName
-    {
-        get { return _userName; }
-        set
-        {
-            _userName = value;
-            OnPropertyChanged();
-        }
-    }
-
-    internal User User
-    {
-        get { return App.LibraryService.SelectedUser; }
-    }
+    public ObservableCollection<Book> TempLoanedBooks { get; private set; }
+    public ObservableCollection<Book> TempLibraryBooks { get; private set; }
+    private bool _changesMade;
     private Book _selectedLibraryBook;
-
-    public Book? SelectedLibraryBook
+    public Book SelectedLibraryBook
     {
-        get
-        {
-            return _selectedLibraryBook;
-        }
+        get { return _selectedLibraryBook; }
         set
         {
-            _selectedLibraryBook = value;
+            _selectedLibraryBook  = value; 
             OnPropertyChanged();
         }
     }
-    private UserBookItem _selectedLoanedBook;
-    public UserBookItem? SelectedLoanedBook
+    private Book _selectedLoanedBook;
+
+    public Book SelectedLoanedBook
     {
-        get
-        {
-            return _selectedLoanedBook;
-        }
+        get { return _selectedLoanedBook; }
         set
         {
             _selectedLoanedBook = value;
@@ -81,72 +43,68 @@ public class UserBooksWindowViewModel : ViewModelBase
     public UserBooksWindowViewModel(Window ownerWindow)
     {
         _ownerWindow = ownerWindow;
-        TempLoanedBooks = new ObservableCollection<UserBookItem>(LoanedBooks);
-        TempAvailableLibraryBooks = GetAvailableBooks();
+        TempLibraryBooks = new ObservableCollection<Book>(GetAvailableLibraryBooks());
+        TempLoanedBooks = new ObservableCollection<Book>(GetUserLoanedBooks());
     }
-    private void SelectBookToLoan()
+    private IEnumerable<Book?> GetAvailableLibraryBooks()
     {
-        if (User.LoanCard != null)
-        {
-            TempLoanedBooks.Add(new UserBookItem(SelectedLibraryBook));
-            TempAvailableLibraryBooks.Remove(SelectedLibraryBook);
-            BookListsChanged();
-            _changesMade = true;
-        }
-        else
-        {
-            MessageBox.Show("Brukeren har ikke lånekort");
-        }
+        return LibraryService.Books.Where(book => book.IsAvailable);
     }
-    private void SelectBookToReturn()
+    private IEnumerable<Book?> GetUserLoanedBooks()
     {
-        TempAvailableLibraryBooks.Add(SelectedLoanedBook.Book);
+        return LibraryService.Books.Where(book => book.LoanedToId == LibraryService.SelectedUser.UserID);
+    }
+    private void LoanBook()
+    {
+        if (LibraryService.SelectedUser.LoanCard == "Ingen")
+        {
+            MessageBox.Show("Brukeren har ikke lånekort!");
+            return;
+        }
+        SelectedLibraryBook.LoanedOnDate = App.GetTodaysDate();
+        TempLoanedBooks.Add(SelectedLibraryBook);
+        TempLibraryBooks.Remove(SelectedLibraryBook);
+        BookListsChanged();
+        _changesMade = true;
+    }
+    private void ReturnBook()
+    {
+        SelectedLoanedBook.LoanedOnDate = null;
+        TempLibraryBooks.Add(SelectedLoanedBook);
         TempLoanedBooks.Remove(SelectedLoanedBook);
         BookListsChanged();
         _changesMade = true;
     }
-    private void SaveChanges()
-    {   
-        User.SetLoanedBooks(TempLoanedBooks);
-        SetLibraryProperties();
-        MessageBox.Show("Endringene er lagret!", String.Empty, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-        _changesMade = false;
-    }
-
-    private void SetLibraryProperties()
-    {
-        foreach (var libraryBook in LibraryBooks)
-        {
-            if (libraryBook.LoanedTo == User) libraryBook.LoanedTo = null;
-        }
-        foreach (var booklisting in TempLoanedBooks)
-        {
-            var book = booklisting.Book;
-            if (book.LoanedTo != User) book.LoanedTo = User;
-
-        }
-    }
-
-    private ObservableCollection<Book?> GetAvailableBooks()
-    {
-        return new ObservableCollection<Book?>(LibraryBooks.Where(book => book.IsAvailable));
-    }
-
     private void BookListsChanged()
     {
-        OnPropertyChanged(nameof(TempAvailableLibraryBooks));
         OnPropertyChanged(nameof(TempLoanedBooks));
+        OnPropertyChanged(nameof(TempLibraryBooks));
     }
     private void AreYouSure()
     {
         if (_changesMade)
         {
-            var choice = MessageBox.Show("Er du sikker? Alle endringer vil bli forkastet.", "Endringer er ikke lagret", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (choice == MessageBoxResult.OK)
+            var choice = MessageBox.Show("Er du sikker? Endringer vil bli forkastet", "Ikke lagret",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (choice == MessageBoxResult.Yes)
             {
                 CloseWindow(_ownerWindow);
             }
+            else return;
         }
-        else { CloseWindow(_ownerWindow); }
+        CloseWindow(_ownerWindow);
+    }
+    private void SaveChanges()
+    {
+        foreach (var book in LibraryService.Books)
+        {
+            if (book.LoanedToId == LibraryService.SelectedUser.UserID) book.LoanedToId = null;
+        }
+        foreach (var tempLoanedBook in TempLoanedBooks)
+        {
+            tempLoanedBook.LoanedToId = LibraryService.SelectedUser.UserID;
+        }
+        _changesMade = false;
+        MessageBox.Show("Endringene ble lagret");
     }
 }

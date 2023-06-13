@@ -9,38 +9,33 @@ public class User
     public string FirstName { get;  set; }
     public string LastName { get;  set; }
     public string Address { get;  set; }
-    public Guid Id { get; private set; }
+    public Guid UserID { get; set; }
     public string FullName => $"{LastName}, {FirstName}";
-    public string LoanCardStatus
+    public string LoanCard { get; set; }
+
+    public User()
     {
-        get => LoanCard != null ? "Gyldig til: " + LoanCard.DateIssued : "Ingen";
+        
     }
-
-    public LoanCard? LoanCard { get; private set; }
-    public ObservableCollection<UserBookItem> LoanedBooks { get; protected internal set; }
-
     public User(string firstName, string lastName, string address)
     {
-        Id = Guid.NewGuid();
+        UserID = Guid.NewGuid();
         FirstName = firstName;
         LastName = lastName;
         Address = address;
-        LoanedBooks = new ObservableCollection<UserBookItem>();
+        LoanCard = "Ingen";
     }
 
     
 
     public void IssueLoanCard()
     {
-        LoanCard = new LoanCard();
+        LoanCard = $"Gyldig til {App.GetTodaysDate(1)}";
     }
 
     public void RevokeLoanCard()
     {
-        LoanCard = null;
+        LoanCard = "Ingen";
     }
-    public void SetLoanedBooks(ObservableCollection<UserBookItem> books)
-    {
-        LoanedBooks = books;
-    }
+    
 }

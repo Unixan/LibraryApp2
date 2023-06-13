@@ -2,6 +2,7 @@
 using LibraryApp.MVVM;
 using System.Collections.ObjectModel;
 using System.Windows;
+using LibraryApp.CommonLibrary;
 
 namespace LibraryApp.ViewModel;
 
@@ -24,10 +25,10 @@ public class AddBookWindowViewModel : ViewModelBase
     }
     public ObservableCollection<Book?> Books
     {
-        get { return App.LibraryService.Books; }
+        get { return LibraryService.Books; }
         set
         {
-            App.LibraryService.Books = value;
+            LibraryService.Books = value;
             OnPropertyChanged();
         }
     }

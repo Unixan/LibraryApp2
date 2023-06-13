@@ -34,7 +34,7 @@
                 <DataGridTextColumn Header="Etternavn" Binding="{Binding LastName}" Width="5*"/>
                 <DataGridTextColumn Header="Navn" Binding="{Binding FirstName}" Width="5*"/>
                 <DataGridTextColumn Header="Adresse" Binding="{Binding Address}" Width="5*"/>
-                <DataGridTextColumn Header="Lånekort" Binding="{Binding LoanCardStatus}" Width="6*"/>
+                <DataGridTextColumn Header="Lånekort" Binding="{Binding LoanCard}" Width="6*"/>
 
             </DataGrid.Columns>
 

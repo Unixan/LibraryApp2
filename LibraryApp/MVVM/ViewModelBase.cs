@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using LibraryApp.CommonLibrary;
 
 namespace LibraryApp.MVVM;
 
@@ -15,7 +16,7 @@ public class ViewModelBase : INotifyPropertyChanged
         ReloadRequested?.Invoke(this, EventArgs.Empty);
     }
 
-    public void ReloadWindow()
+    protected void ReloadWindow()
     {
         OnReloadRequested();
     }
@@ -32,8 +33,8 @@ public class ViewModelBase : INotifyPropertyChanged
 
     public void ResetAndClose(Window window)
     {
-        App.LibraryService.SelectedUser = null;
-        App.LibraryService.SelectedBook = null;
+        LibraryService.SelectedUser = null;
+        LibraryService.SelectedBook = null;
         window.Close();
     }
 

@@ -3,6 +3,7 @@ using LibraryApp.MVVM;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using LibraryApp.CommonLibrary;
 
 namespace LibraryApp.ViewModel;
 
@@ -14,11 +15,11 @@ public class AddUserWindowViewModel : ViewModelBase
     {
         get
         {
-            return App.LibraryService.Users;
+            return LibraryService.Users;
         }
         set
         {
-            App.LibraryService.Users = value;
+            LibraryService.Users = value;
             OnPropertyChanged();
         }
     }

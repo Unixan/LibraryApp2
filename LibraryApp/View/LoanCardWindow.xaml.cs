@@ -1,6 +1,4 @@
-﻿using System;
-using LibraryApp.Model;
-using LibraryApp.ViewModel;
+﻿using LibraryApp.ViewModel;
 using System.Windows;
 
 namespace LibraryApp.View
@@ -13,19 +11,6 @@ namespace LibraryApp.View
             InitializeComponent();
             var LoanCardWindowViewModel = new LoanCardWindowViewModel(this);
             DataContext = LoanCardWindowViewModel;
-            LoanCardWindowViewModel.ReloadRequested += vm_ReloadRequested;
-        }
-
-        private void vm_ReloadRequested(object? sender, EventArgs e)
-        {
-            ReloadWindow();
-        }
-
-        private void ReloadWindow()
-        {
-            LoanCardWindow newWindow = new LoanCardWindow(this);
-            Close();
-            newWindow.ShowDialog();
         }
     }
 }

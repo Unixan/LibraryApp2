@@ -1,4 +1,5 @@
-﻿using LibraryApp.Model;
+﻿using LibraryApp.CommonLibrary;
+using LibraryApp.Model;
 using LibraryApp.MVVM;
 using LibraryApp.View;
 using System.Collections.ObjectModel;
@@ -11,19 +12,19 @@ public class UsersWindowViewModel : ViewModelBase
     private Window _ownerWindow;
     public ObservableCollection<User?> Users
     {
-        get { return App.LibraryService.Users;}
+        get { return LibraryService.Users;}
         set
         {
-            App.LibraryService.Users = value;
+            LibraryService.Users = value;
             OnPropertyChanged();
         }
     }
-    public User SelectedUser
+    public User? SelectedUser
     {
-        get { return App.LibraryService?.SelectedUser; }
+        get { return LibraryService.SelectedUser; }
         set
         {
-            App.LibraryService.SelectedUser = value;
+            LibraryService.SelectedUser = value;
             OnPropertyChanged();
         }
     }
@@ -63,16 +64,14 @@ public class UsersWindowViewModel : ViewModelBase
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
         if (choice != MessageBoxResult.Yes) return;
-        RemoveCurrentBooksFromUser();
+        foreach (var book in LibraryService.Books)
+        {
+            if (SelectedUser.UserID != book.LoanedToId) continue;
+            book.LoanedToId = null;
+            book.LoanedOnDate = null;
+        }
         Users.Remove(SelectedUser);
     }
 
-    private void RemoveCurrentBooksFromUser()
-    {
-        if (SelectedUser.LoanedBooks.Count <= 0) return;
-        foreach (var booklisting in SelectedUser.LoanedBooks)
-        {
-            booklisting.Book.LoanedTo = null;
-        }
-    }
+    
 }

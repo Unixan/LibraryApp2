@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using LibraryApp.Model;
-using System.Windows;
+﻿using System.Windows;
 using LibraryApp.ViewModel;
 using System;
 

@@ -49,7 +49,7 @@
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tittel" Binding="{Binding Title}" Width="1*"/>
-                <DataGridTextColumn Header="Lånt dato" Binding="{Binding LoanedOn}" Width="1*"/>
+                <DataGridTextColumn Header="Lånt dato" Binding="{Binding LoanedOnDate}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Grid.Column="2"
@@ -58,7 +58,7 @@
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
-                  ItemsSource="{Binding TempAvailableLibraryBooks}"
+                  ItemsSource="{Binding TempLibraryBooks}"
                   SelectedItem="{Binding SelectedLibraryBook}"
                   >
             <DataGrid.Columns>
