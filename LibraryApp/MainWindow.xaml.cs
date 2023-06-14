@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using LibraryApp.CommonLibrary;
 using LibraryApp.ViewModel;
 
 namespace LibraryApp
@@ -21,5 +22,9 @@ namespace LibraryApp
             }
         }
 
+        private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            await LibraryService.PopulateLists();
+        }
     }
 }

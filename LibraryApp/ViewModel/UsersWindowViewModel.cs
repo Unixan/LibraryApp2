@@ -3,6 +3,8 @@ using LibraryApp.Model;
 using LibraryApp.MVVM;
 using LibraryApp.View;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace LibraryApp.ViewModel;
@@ -12,7 +14,7 @@ public class UsersWindowViewModel : ViewModelBase
     private Window _ownerWindow;
     public ObservableCollection<User?> Users
     {
-        get { return LibraryService.Users;}
+        get { return  LibraryService.Users;}
         set
         {
             LibraryService.Users = value;
@@ -40,11 +42,13 @@ public class UsersWindowViewModel : ViewModelBase
         _ownerWindow = ownerWindow;
     }
 
-    private void AddUser()
+    private async void AddUser()
     {
         var addUserWindow = new AddUserWindow(_ownerWindow);
         _ownerWindow.Opacity = 0;
         addUserWindow.ShowDialog();
+        Users = await LibraryService.GetUsersList();
+        OnPropertyChanged(nameof(Users));
         _ownerWindow.Opacity = 1;
     }
 
@@ -57,7 +61,7 @@ public class UsersWindowViewModel : ViewModelBase
         _ownerWindow.Opacity = 1;
        }
 
-    private void DeleteUser()
+    private async void DeleteUser()
     {
         var choice = MessageBox.Show("Er du sikker? Brukeren vil bli slettet for godt",
             $"Slette {SelectedUser.LastName}, {SelectedUser.FirstName}?",
@@ -70,7 +74,9 @@ public class UsersWindowViewModel : ViewModelBase
             book.LoanedToId = null;
             book.LoanedOnDate = null;
         }
-        Users.Remove(SelectedUser);
+        await LibraryService.DeleteUser(SelectedUser.UserID);
+        Users = await LibraryService.GetUsersList();
+        OnPropertyChanged(nameof(Users));
     }
 
     

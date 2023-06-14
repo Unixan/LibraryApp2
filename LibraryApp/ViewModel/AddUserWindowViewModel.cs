@@ -66,7 +66,7 @@ public class AddUserWindowViewModel : ViewModelBase
     {
         _ownerWindow = ownerWindow;
     }
-    private void AddUser()
+    private async void AddUser()
     {
         var exists = CheckIfExists();
         if (exists)
@@ -76,7 +76,7 @@ public class AddUserWindowViewModel : ViewModelBase
             return;
         }
         var newUser = new User(UserFirstName, UserLastName, UserAddress);
-        Users.Add(newUser);
+        await LibraryService.AddUser(newUser);
         MessageBox.Show("Ny bruker lagt til");
         EmptyFields();
     }

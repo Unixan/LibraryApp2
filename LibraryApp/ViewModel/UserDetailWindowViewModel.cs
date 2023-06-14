@@ -38,6 +38,7 @@ public class UserDetailWindowViewModel : ViewModelBase
     {
         Books = new ObservableCollection<Book>();
         _ownerWindow = window;
+        GetUserBooks();
     }
 
     private void GetUserBooks()

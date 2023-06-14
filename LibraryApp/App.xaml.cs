@@ -11,7 +11,7 @@ namespace LibraryApp
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            LibraryService.PopulateLists();
+            ApiHelper.InitializeClient();
         }
 
         public static string? GetTodaysDate(int extraYear = 0)

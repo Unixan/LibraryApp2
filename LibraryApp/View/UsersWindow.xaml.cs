@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using LibraryApp.ViewModel;
 using System;
+using LibraryApp.CommonLibrary;
 
 namespace LibraryApp.View
 {
@@ -25,5 +26,6 @@ namespace LibraryApp.View
             Close();
             newWindow.ShowDialog();
         }
+        
     }
 }

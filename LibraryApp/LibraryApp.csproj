@@ -9,8 +9,12 @@
 
   <ItemGroup>
     <Folder Include="MVVM\" />
-    <Folder Include="CommonLibrary\" />
+    <Folder Include="CommonLibraryService\" />
     <Folder Include="ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,7 @@ public class AddBookWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-    public ObservableCollection<Book?> Books
+    public ObservableCollection<Book?>? Books
     {
         get { return LibraryService.Books; }
         set

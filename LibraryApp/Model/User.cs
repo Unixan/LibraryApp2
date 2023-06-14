@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 
 
 namespace LibraryApp.Model;
@@ -26,7 +25,7 @@ public class User
         LoanCard = "Ingen";
     }
 
-    
+
 
     public void IssueLoanCard()
     {
@@ -37,5 +36,9 @@ public class User
     {
         LoanCard = "Ingen";
     }
-    
+
+    public string ToString()
+    {
+        return FirstName;
+    }
 }

@@ -18,7 +18,7 @@ public class LoanCardWindowViewModel : ViewModelBase
     }
     public Guid ID => User.UserID;
     public string FullName => User.FullName;
-  public string LoanCardStatus
+    public string LoanCardStatus
    {
        get { return User.LoanCard; }
       

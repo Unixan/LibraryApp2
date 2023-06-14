@@ -16,7 +16,7 @@ public class BooksWindowViewModel : ViewModelBase
 
 
     private Window _ownerWindow;
-    public ObservableCollection<Book?> Books
+    public ObservableCollection<Book?>? Books
     {
         get { return LibraryService.Books; }
         set

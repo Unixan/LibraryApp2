@@ -9,6 +9,7 @@
         ResizeMode="CanMinimize" 
         WindowStyle="None"
         Style="{StaticResource {x:Type Window}}"
+        Loaded="MainWindow_OnLoaded"
         AllowsTransparency="True"
         MouseDown="MainWindow_OnMouseDown"
         WindowStartupLocation="CenterScreen">

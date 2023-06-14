@@ -13,7 +13,7 @@ public class MainWindowViewModel : ViewModelBase
     public RelayCommand UsersCommand => new(execute => OpenUsersWindow());
     public RelayCommand ExitCommand => new(execute => CloseWindow(_ownerWindow));
     private readonly Window _ownerWindow;
-    protected ObservableCollection<Book?> Books;
+    protected ObservableCollection<Book?>? Books;
     protected ObservableCollection<User?> Users;
 
     public MainWindowViewModel(Window ownerWindow)
