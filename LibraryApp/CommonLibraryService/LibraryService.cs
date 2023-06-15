@@ -22,33 +22,35 @@ public static class LibraryService
 
     internal static async Task<ObservableCollection<Book>> GetBooksList()
     {
-        var url = "https://localhost:7072/libraryBooks";
-        using var response = await ApiHelper.ApiClient.GetAsync(url);
-        if (response.IsSuccessStatusCode)
+        const string url = "https://localhost:7072/libraryBooks";
+        try
         {
+            using var response = await ApiHelper.ApiClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsAsync<ObservableCollection<Book>>();
             return result;
         }
-        else
+        catch (Exception e)
         {
-            MessageBox.Show($"Error!\n{response.ReasonPhrase}");
-            throw new Exception(response.ReasonPhrase);
+            MessageBox.Show(e.Message);
+            throw;
         }
     }
 
     internal static async Task<ObservableCollection<User>> GetUsersList()
     {
-        var url = "https://localhost:7072/libraryUsers";
-        using var response = await ApiHelper.ApiClient.GetAsync(url);
-        if (response.IsSuccessStatusCode)
+        const string url = "https://localhost:7072/libraryUsers";
+        try
         {
+            using var response = await ApiHelper.ApiClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsAsync<ObservableCollection<User>>();
             return result;
         }
-        else
+        catch (Exception e)
         {
-            MessageBox.Show($"Error!\n{response.ReasonPhrase}");
-            throw new Exception(response.ReasonPhrase);
+            MessageBox.Show(e.Message);
+            throw;
         }
     }
 
@@ -59,10 +61,36 @@ public static class LibraryService
         response.EnsureSuccessStatusCode();
     }
 
+    internal static async Task ChangeLoanCardStatus(User user)
+    {
+        var url = $"https://localhost:7072/libraryUser/{user.UserID}";
+        using var response = await ApiHelper.ApiClient.PutAsJsonAsync(url, user);
+        response.EnsureSuccessStatusCode();
+    }
+
     internal static async Task DeleteUser(Guid userID)
     {
         var url = $"https://localhost:7072/libraryUser/{userID}";
-        var response = await ApiHelper.ApiClient.DeleteAsync(url);
+        using var response = await ApiHelper.ApiClient.DeleteAsync(url);
         response.EnsureSuccessStatusCode();
+    }
+
+    internal static async Task AddBook(Book book)
+    {
+        var url = $"https://localhost:7072/libraryBook";
+        using var response = await ApiHelper.ApiClient.PostAsJsonAsync(url, book);
+        response.EnsureSuccessStatusCode();
+    }
+    internal static async Task DeleteBook(Guid bookID)
+    {
+        var url = $"https://localhost:7072/libraryBook/{bookID}";
+        using var response = await ApiHelper.ApiClient.DeleteAsync(url);
+        response.EnsureSuccessStatusCode();
+    }
+
+    internal static async Task UpdateLoanedStatus()
+    {
+        var url = $"$\"https://localhost:7072/libraryBook";
+        using var response = await ApiHelper.ApiClient.PutAsync<ObservableCollection<Book>>()
     }
 }

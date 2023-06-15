@@ -90,9 +90,10 @@ public class AddBookWindowViewModel : ViewModelBase
             "Vitenskap"
         };
     }
-    private void AddBook()
+    private async void AddBook()
     {
-        Books.Add(new Book(Title, Author, SelectedOption!, Description));
+        await LibraryService.AddBook(new Book(Title, Author, SelectedOption!, Description));
+        LibraryService.Books = await LibraryService.GetBooksList();
         MessageBox.Show("Ny bok lagt til!");
         EmptyFields();
     }

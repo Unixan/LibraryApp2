@@ -2,6 +2,7 @@
 using LibraryApp.Model;
 using LibraryApp.MVVM;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace LibraryApp.ViewModel;
@@ -28,17 +29,25 @@ public class LoanCardWindowViewModel : ViewModelBase
     {
         _ownerWindow = window;
         }
-    private void IssueLoanCard()
+    private async void IssueLoanCard()
     {
         User.IssueLoanCard();
+        await UpdateLoanCardStatus();
         MessageBox.Show("Lånekort tildelt for 1 år");
         OnPropertyChanged(nameof(LoanCardStatus));
     }
 
-    private void RevokeLoanCard()
+    private async void RevokeLoanCard()
     {
         User.RevokeLoanCard();
+        await UpdateLoanCardStatus();
         MessageBox.Show("Lånekort inndratt");
         OnPropertyChanged(nameof(LoanCardStatus));
+    }
+
+    private async Task UpdateLoanCardStatus()
+    {
+        await LibraryService.ChangeLoanCardStatus(LibraryService.SelectedUser);
+        LibraryService.Users = await LibraryService.GetUsersList();
     }
 }

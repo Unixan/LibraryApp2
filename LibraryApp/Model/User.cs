@@ -5,16 +5,16 @@ namespace LibraryApp.Model;
 
 public class User
 {
-    public string FirstName { get;  set; }
-    public string LastName { get;  set; }
-    public string Address { get;  set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Address { get; set; }
     public Guid UserID { get; set; }
     public string FullName => $"{LastName}, {FirstName}";
     public string LoanCard { get; set; }
 
     public User()
     {
-        
+
     }
     public User(string firstName, string lastName, string address)
     {
@@ -35,10 +35,5 @@ public class User
     public void RevokeLoanCard()
     {
         LoanCard = "Ingen";
-    }
-
-    public string ToString()
-    {
-        return FirstName;
     }
 }

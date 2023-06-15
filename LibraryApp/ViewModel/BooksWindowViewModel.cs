@@ -45,18 +45,21 @@ public class BooksWindowViewModel : ViewModelBase
         bookDetailsWindow.ShowDialog();
         _ownerWindow.Opacity = 1;
     }
-    private void DeleteSelectedBook()
+    private async void DeleteSelectedBook()
     {
         var choice = MessageBox.Show("Er du sikker?", $"Slette {SelectedBook?.Title} permanent?", MessageBoxButton.YesNo);
         if (choice != MessageBoxResult.Yes) return;
-        Books?.Remove(SelectedBook);
+        await LibraryService.DeleteBook(SelectedBook.BookId);
+        LibraryService.Books = await LibraryService.GetBooksList(); 
         SelectedBook = null;
+        OnPropertyChanged(nameof(Books));
     }
     private void AddBook()
     {
         var addBookWindow = new AddBookWindow(_ownerWindow);
         _ownerWindow.Opacity = 0;
         addBookWindow.ShowDialog();
+        OnPropertyChanged(nameof(Books));
         _ownerWindow.Opacity = 1;
     }
 }
