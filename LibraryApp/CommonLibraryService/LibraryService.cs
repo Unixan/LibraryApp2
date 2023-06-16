@@ -88,9 +88,10 @@ public static class LibraryService
         response.EnsureSuccessStatusCode();
     }
 
-    internal static async Task UpdateLoanedStatus()
+    internal static async Task UpdateLoanedStatus(Book book)
     {
-        var url = $"$\"https://localhost:7072/libraryBook";
-        using var response = await ApiHelper.ApiClient.PutAsync<ObservableCollection<Book>>()
+        var url = $"https://localhost:7072/libraryBook/{book.BookId}";
+        using var response = await ApiHelper.ApiClient.PutAsJsonAsync(url, book);
+        response.EnsureSuccessStatusCode();
     }
 }

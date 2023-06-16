@@ -4,6 +4,7 @@ using LibraryApp.MVVM;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace LibraryApp.ViewModel;
@@ -94,7 +95,7 @@ public class UserBooksWindowViewModel : ViewModelBase
         }
         CloseWindow(_ownerWindow);
     }
-    private void SaveChanges()
+    private async void SaveChanges()
     {
         foreach (var book in LibraryService.Books)
         {
@@ -105,6 +106,15 @@ public class UserBooksWindowViewModel : ViewModelBase
             tempLoanedBook.LoanedToId = LibraryService.SelectedUser.UserID;
         }
         _changesMade = false;
+        await UpdateBookList();
         MessageBox.Show("Endringene ble lagret");
+    }
+
+    private async Task UpdateBookList()
+    {
+        foreach (var book in LibraryService.Books)
+        {
+            await LibraryService.UpdateLoanedStatus(book);
+        }
     }
 }
